@@ -1,0 +1,17 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Optimisation des layers : on copie le package.json d'abord
+COPY package*.json ./
+RUN npm install
+
+# Ensuite on copie le code du serveur
+COPY server.js ./
+
+# Sécurité : on utilise l'utilisateur non-root
+USER node
+
+EXPOSE 8080
+
+CMD ["npm", "start"]
